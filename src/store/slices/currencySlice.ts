@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { currencyApi } from "../../service/currencyServices";
 
-export const featchCurrency = createAsyncThunk(
+export const featchCurrency = createAsyncThunk<any>(
   "currency/featchCurrency",
   async () => {
-    const result = await (
-      await fetch("https://api.exchangerate.host/latest")
-    ).json();
-
+    const result = await currencyApi.getAllRates();
     return result;
   }
 );
