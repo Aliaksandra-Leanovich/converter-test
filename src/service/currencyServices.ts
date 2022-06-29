@@ -7,9 +7,8 @@ class currencyService {
     baseURL: this.API_URL,
   });
 
-  public async getAllRates(): Promise<any> {
-    const { data } = await this.api.get<any>("/latest");
-    return data;
+  public getAllRates(): Promise<any> {
+    return this.api.get<any>("/latest").then(({ data }) => data);
   }
 }
 export const currencyApi = new currencyService();

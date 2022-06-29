@@ -3,9 +3,8 @@ import { currencyApi } from "../../service/currencyServices";
 
 export const featchCurrency = createAsyncThunk<any>(
   "currency/featchCurrency",
-  async () => {
-    const result = await currencyApi.getAllRates();
-    return result;
+  () => {
+    return currencyApi.getAllRates();
   }
 );
 export interface IInitialState {
