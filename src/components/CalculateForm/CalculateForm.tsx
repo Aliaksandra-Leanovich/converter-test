@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { getCurrency } from "../../store/selectors/currencySelectors";
 import { featchCurrency } from "../../store/slices/currencySlice";
 import { CalculateInput } from "../CalculateInput/CalculateInput";
-import { StyledForm } from "./style";
+import { ContainerInput, CurrencyName, StyledForm } from "./style";
 
 export const CalculateForm = () => {
   const currencies = useAppSelector(getCurrency);
@@ -13,11 +13,18 @@ export const CalculateForm = () => {
     dispatch(featchCurrency());
   }, [dispatch]);
 
-  console.log(currencies);
+  // console.log(currencies.USD);
 
   return (
     <StyledForm>
-      <CalculateInput />
+      {/* <ContainerInput>
+        <CurrencyName>USD</CurrencyName>
+        <CalculateInput type="number" placeholder={currencies.USD} />
+      </ContainerInput>
+      <ContainerInput>
+        <CurrencyName> EUR </CurrencyName>
+        <CalculateInput type="number" placeholder={currencies.EUR} />
+      </ContainerInput> */}
     </StyledForm>
   );
 };
