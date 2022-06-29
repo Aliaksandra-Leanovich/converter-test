@@ -9,12 +9,12 @@ export const featchCurrency = createAsyncThunk<any>(
 );
 export interface IInitialState {
   currency: any;
-  loading: boolean;
+  status: string;
 }
 
 const initialState: IInitialState = {
   currency: {},
-  loading: false,
+  status: "idle",
 };
 
 const currencySlice = createSlice({
@@ -23,14 +23,14 @@ const currencySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(featchCurrency.pending, (state) => {
-      state.loading = true;
+      state.status = "loading";
     });
     builder.addCase(featchCurrency.fulfilled, (state, action) => {
-      state.loading = false;
+      state.status = "success";
       state.currency = action.payload;
     });
     builder.addCase(featchCurrency.rejected, (state, action) => {
-      state.loading = false;
+      state.status = "error";
     });
   },
 });
