@@ -4,15 +4,6 @@ import { useAppSelector } from "./store/hooks/hooks";
 import { getCurrencyStatus } from "./store/selectors/currencySelectors";
 
 function App() {
-  const status = useAppSelector(getCurrencyStatus);
-
-  if (status === "loading") {
-    return <p>loading</p>;
-  }
-  if (status === "error") {
-    return <p>error</p>;
-  }
-
   return (
     <StyledApp className="App">
       <ContainerCalculateForm />

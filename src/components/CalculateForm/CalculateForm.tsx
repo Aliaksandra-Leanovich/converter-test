@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
-import { getCurrency } from "../../store/selectors/currencySelectors";
+import {
+  getCurrency,
+  getCurrencyStatus,
+} from "../../store/selectors/currencySelectors";
 import { featchCurrency } from "../../store/slices/currencySlice";
 import { CalculateInput } from "../CalculateInput/CalculateInput";
 import { ContainerInput, CurrencyName, StyledForm } from "./style";
@@ -13,7 +16,7 @@ export const CalculateForm = () => {
     dispatch(featchCurrency());
   }, [dispatch]);
 
-  // console.log(currencies.USD);
+  // console.log(currencies);
 
   return (
     <StyledForm>

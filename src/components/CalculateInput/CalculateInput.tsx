@@ -7,5 +7,5 @@ type ICalculateInput = {
 };
 
 export const CalculateInput = ({ type, placeholder }: ICalculateInput) => {
-  return <StyledInput />;
+  return <StyledInput type={type} placeholder={placeholder} />;
 };
