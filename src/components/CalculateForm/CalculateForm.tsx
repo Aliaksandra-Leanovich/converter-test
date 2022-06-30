@@ -16,7 +16,7 @@ export const CalculateForm = () => {
     dispatch(featchCurrency());
   }, [dispatch]);
 
-  console.log(currencies);
+  // console.log(currencies);
 
   return (
     <StyledForm>

@@ -3,6 +3,8 @@ import { ContainerCalculateForm } from "./components/ContainerCalculateFrom/Cont
 import { useAppSelector } from "./store/hooks/hooks";
 import { getCurrencyStatus } from "./store/selectors/currencySelectors";
 
+import { useEffect } from "react";
+
 function App() {
   return (
     <StyledApp className="App">
