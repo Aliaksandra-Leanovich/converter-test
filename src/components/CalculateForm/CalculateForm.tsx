@@ -16,18 +16,26 @@ export const CalculateForm = () => {
     dispatch(featchCurrency());
   }, [dispatch]);
 
-  // console.log(currencies);
+  console.log(currencies);
 
   return (
     <StyledForm>
-      {/* <ContainerInput>
+      <ContainerInput>
         <CurrencyName>USD</CurrencyName>
-        <CalculateInput type="number" placeholder={currencies.USD} />
+        <CalculateInput type="number" placeholder="" />
       </ContainerInput>
       <ContainerInput>
         <CurrencyName> EUR </CurrencyName>
-        <CalculateInput type="number" placeholder={currencies.EUR} />
-      </ContainerInput> */}
+        <CalculateInput type="number" placeholder="" />
+      </ContainerInput>
+      <ContainerInput>
+        <CurrencyName> BYN </CurrencyName>
+        <CalculateInput type="number" placeholder="" />
+      </ContainerInput>
+      <ContainerInput>
+        <CurrencyName> RUB </CurrencyName>
+        <CalculateInput type="number" placeholder="" />
+      </ContainerInput>
     </StyledForm>
   );
 };
