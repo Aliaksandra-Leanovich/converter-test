@@ -7,13 +7,11 @@ export interface IExpensesContextProviderProps {
 export interface ICurrenciesContext {
   currencies: any;
   setCurrencies: (newCurrencies: any[]) => void;
-  checkCurrencies: (key: string) => any;
 }
 
 const CurrenciesContext = createContext({
   currencies: [],
   setCurrencies: (newCurrencies: string[]) => {},
-  checkCurrencies: (key: string) => {},
 });
 
 const useCurrenciesContextValue = () => {
@@ -25,15 +23,6 @@ const useCurrenciesContextValue = () => {
         setCurrenciesContext((ctx) => ({
           ...ctx,
           currencies: newCurrencies,
-        }));
-      },
-
-      checkCurrencies: (key: string) => {
-        setCurrenciesContext((ctx) => ({
-          ...ctx,
-          currencies: ctx.currencies.includes(
-            (currencies: any) => currencies.key !== key
-          ),
         }));
       },
     }));

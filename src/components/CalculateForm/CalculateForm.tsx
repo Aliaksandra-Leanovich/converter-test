@@ -33,8 +33,6 @@ export const CalculateForm = () => {
   }, [dispatch]);
 
   const { currencies, setCurrencies } = useCurrenciesContext();
-  //контекст хочет свой собсвенный метод перебора на подобии includes
-  //сделала метод checkCurrencies, но не работает
 
   const shownCurrencies1 = ["USD", "EUR", "BYN", "RUB"];
 
@@ -47,10 +45,7 @@ export const CalculateForm = () => {
   const handleSelect = (event: any) => {
     if (event) {
       selectCurrency.push(event);
-      // console.log(selectCurrency);
       setCurrencies([...currencies, event]);
-      console.log(currencies);
-      //не отрисовываюися новые
     }
   };
 
@@ -59,7 +54,7 @@ export const CalculateForm = () => {
       <StyledForm>
         <>
           {Object.entries(allRates ?? {}).map(([key, value]) => {
-            if (shownCurrencies1.includes(key)) {
+            if (currencies.includes(key)) {
               return (
                 <ContainerInput>
                   <CurrencyName>{key}</CurrencyName>
