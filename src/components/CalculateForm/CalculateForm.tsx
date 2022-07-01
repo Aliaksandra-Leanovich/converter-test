@@ -11,6 +11,7 @@ import { CalculateInput } from "../CalculateInput/CalculateInput";
 import { ContainerInput, CurrencyName, StyledForm } from "./style";
 import Select, { StylesConfig } from "react-select";
 import { isNonNullExpression } from "typescript";
+import { CurrencySelect } from "../CurrencySelect/CurrencySelect";
 
 export const CalculateForm = () => {
   // const currencies = useAppSelector(getCurrency);
@@ -25,16 +26,16 @@ export const CalculateForm = () => {
   useEffect(() => {
     currencyService.getAllRates().subscribe(setAllRates);
   }, [dispatch]);
+
   const [keysRates, setKeyslRates] = useState([]);
   useEffect(() => {
     currencyService.getRatesKey().subscribe(setKeyslRates);
   }, [dispatch]);
-  console.log(keysRates);
+  // console.log(keysRates);
 
   // const shownCurrencies = useCurrenciesContext();
   //контекст хочет свой собсвенный метод перебора на подобии includes
   //сделала метод checkCurrencies, но не работает
-  // console.log(shownCurrencies.currencies);
 
   const shownCurrencies = ["USD", "EUR", "BYN", "RUB"];
 
@@ -43,7 +44,17 @@ export const CalculateForm = () => {
     setCurrenccyOptions(keysRates);
     //пыталась сделать handleSelect, пока не смогла
   });
-  console.log(currencyOptions);
+
+  const [selectCurrency, setSelectCurrency] = useState(shownCurrencies);
+
+  const handleSelect = (event: any) => {
+    if (event) {
+      setSelectCurrency(event);
+      selectCurrency.push(event);
+      console.log(selectCurrency);
+    }
+  };
+
   return (
     <>
       <StyledForm>
@@ -60,8 +71,12 @@ export const CalculateForm = () => {
           })}
         </>
       </StyledForm>
-      <select>
-        {keysRates.map((keys) => {
+      <select
+        onChange={(e) => handleSelect(e.target.value)}
+        value={currencyOptions}
+        multiple={false}
+      >
+        {currencyOptions.map((keys) => {
           return <option value={keys}>{keys}</option>;
         })}
       </select>
