@@ -10,9 +10,9 @@ export interface ICurrenciesContext {
   checkCurrencies: (key: string) => any;
 }
 
-const CurrenciesContext = createContext<any>({
+const CurrenciesContext = createContext({
   currencies: [],
-  setCurrencies: (newCurrencies: any[]) => {},
+  setCurrencies: (newCurrencies: string[]) => {},
   checkCurrencies: (key: string) => {},
 });
 
@@ -20,12 +20,14 @@ const useCurrenciesContextValue = () => {
   const [currenciesContext, setCurrenciesContext] =
     useState<ICurrenciesContext>(() => ({
       currencies: ["USD", "EUR", "BYN", "RUB"],
-      setCurrencies: (newCurrencies: any) => {
-        setCurrenciesContext((ctx: any) => ({
+
+      setCurrencies: (newCurrencies: string[]) => {
+        setCurrenciesContext((ctx) => ({
           ...ctx,
           currencies: newCurrencies,
         }));
       },
+
       checkCurrencies: (key: string) => {
         setCurrenciesContext((ctx) => ({
           ...ctx,

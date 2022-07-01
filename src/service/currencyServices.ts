@@ -18,5 +18,10 @@ class CurrencyService {
       map((response) => response.data.rates)
     );
   }
+  public getRatesKey(): Observable<any> {
+    return from(this.api.get("/latest?base=USD")).pipe(
+      map((response) => Object.keys(response.data.rates))
+    );
+  }
 }
 export const currencyService = new CurrencyService();
