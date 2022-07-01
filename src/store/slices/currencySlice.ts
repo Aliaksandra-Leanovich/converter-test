@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { currencyApi } from "../../service/currencyServices";
+import { currencyService } from "../../service/currencyServices";
 
 export const featchCurrency = createAsyncThunk<any>(
   "currency/featchCurrency",
   () => {
-    return currencyApi.getAllRates();
+    return currencyService.getAllRates();
   }
 );
 export interface IInitialState {

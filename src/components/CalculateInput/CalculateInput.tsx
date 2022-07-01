@@ -3,7 +3,7 @@ import { StyledInput } from "./style";
 
 type ICalculateInput = {
   type: string;
-  placeholder: string;
+  placeholder: string | undefined;
 };
 
 export const CalculateInput = ({ type, placeholder }: ICalculateInput) => {

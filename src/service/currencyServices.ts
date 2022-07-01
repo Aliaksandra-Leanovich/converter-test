@@ -1,47 +1,22 @@
 import axios from "axios";
-import {
-  BehaviorSubject,
-  combineLatest,
-  flatMap,
-  map,
-  Observable,
-  pipe,
-} from "rxjs";
+import { from, Observable, pipe } from "rxjs";
+import { map } from "rxjs/operators";
 
-class currencyService {
+export interface ICurrency {
+  [label: string]: string | undefined;
+}
+
+class CurrencyService {
   private readonly API_URL = "https://api.exchangerate.host";
 
   private api = axios.create({
     baseURL: this.API_URL,
   });
 
-  // public getAllRates(): Promise<any> {
-  //   return this.api.get<any>("/latest").then(({ data }) => data);
-  // }
-
   public getAllRates(): Observable<any> {
-    return this.api.get("/latest").pipe(
-      map((res: any[]) => {
-        const data = res.map((obj) => ({
-          label: obj.name,
-          value: obj.value,
-        }));
-        return data;
-      })
+    return from(this.api.get("/latest?base=USD")).pipe(
+      map((response) => response.data.rates)
     );
   }
 }
-export const currencyApi = new currencyService();
-
-export const currencyService$ = new BehaviorSubject<any>([]);
-
-const latest$ = new BehaviorSubject("/latest");
-
-const fetch$ = combineLatest(latest$).pipe(
-  flatMap(([latest]) => axios(`https://api.exchangerate.host${latest}`)),
-  map((result: any) => result.data)
-);
-
-// fetch()
-//   .then((res) => res.json())
-//   .then((data) => currencyService$.next(data));
+export const currencyService = new CurrencyService();
