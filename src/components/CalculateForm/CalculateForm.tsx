@@ -46,10 +46,8 @@ export const CalculateForm = () => {
 
   const handleSelect = (event: any) => {
     if (event) {
-      setSelectCurrency(event);
       selectCurrency.push(event);
       console.log(selectCurrency);
-      //срабатывает один раз
       //не отрисовываюися новые
     }
   };
