@@ -32,22 +32,24 @@ export const CalculateForm = () => {
     currencyService.getRatesKey().subscribe(setKeyslRates);
   }, [dispatch]);
 
-  // const shownCurrencies = useCurrenciesContext();
+  const { currencies, setCurrencies } = useCurrenciesContext();
   //контекст хочет свой собсвенный метод перебора на подобии includes
   //сделала метод checkCurrencies, но не работает
 
-  const shownCurrencies = ["USD", "EUR", "BYN", "RUB"];
+  const shownCurrencies1 = ["USD", "EUR", "BYN", "RUB"];
 
   const [currencyOptions, setCurrenccyOptions] = useState([]);
   useEffect(() => {
     setCurrenccyOptions(keysRates);
   });
-  const [selectCurrency, setSelectCurrency] = useState(shownCurrencies);
+  const [selectCurrency, setSelectCurrency] = useState(shownCurrencies1);
 
   const handleSelect = (event: any) => {
     if (event) {
       selectCurrency.push(event);
-      console.log(selectCurrency);
+      // console.log(selectCurrency);
+      setCurrencies([...currencies, event]);
+      console.log(currencies);
       //не отрисовываюися новые
     }
   };
@@ -57,7 +59,7 @@ export const CalculateForm = () => {
       <StyledForm>
         <>
           {Object.entries(allRates ?? {}).map(([key, value]) => {
-            if (shownCurrencies.includes(key)) {
+            if (shownCurrencies1.includes(key)) {
               return (
                 <ContainerInput>
                   <CurrencyName>{key}</CurrencyName>
