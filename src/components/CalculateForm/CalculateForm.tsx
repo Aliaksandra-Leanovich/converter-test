@@ -31,7 +31,6 @@ export const CalculateForm = () => {
   useEffect(() => {
     currencyService.getRatesKey().subscribe(setKeyslRates);
   }, [dispatch]);
-  // console.log(keysRates);
 
   // const shownCurrencies = useCurrenciesContext();
   //контекст хочет свой собсвенный метод перебора на подобии includes
@@ -42,9 +41,7 @@ export const CalculateForm = () => {
   const [currencyOptions, setCurrenccyOptions] = useState([]);
   useEffect(() => {
     setCurrenccyOptions(keysRates);
-    //пыталась сделать handleSelect, пока не смогла
   });
-
   const [selectCurrency, setSelectCurrency] = useState(shownCurrencies);
 
   const handleSelect = (event: any) => {
@@ -52,6 +49,8 @@ export const CalculateForm = () => {
       setSelectCurrency(event);
       selectCurrency.push(event);
       console.log(selectCurrency);
+      //срабатывает один раз
+      //не отрисовываюися новые
     }
   };
 
