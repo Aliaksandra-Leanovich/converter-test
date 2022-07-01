@@ -8,10 +8,14 @@ import {
 } from "../../store/selectors/currencySelectors";
 import { featchCurrency } from "../../store/slices/currencySlice";
 import { CalculateInput } from "../CalculateInput/CalculateInput";
-import { ContainerInput, CurrencyName, StyledForm } from "./style";
-import Select, { StylesConfig } from "react-select";
+import {
+  Container,
+  ContainerInput,
+  CurrencyName,
+  CurrencySelect,
+  StyledForm,
+} from "./style";
 import { isNonNullExpression } from "typescript";
-import { CurrencySelect } from "../CurrencySelect/CurrencySelect";
 
 export const CalculateForm = () => {
   // const currencies = useAppSelector(getCurrency);
@@ -50,7 +54,7 @@ export const CalculateForm = () => {
   };
 
   return (
-    <>
+    <Container>
       <StyledForm>
         <>
           {Object.entries(allRates ?? {}).map(([key, value]) => {
@@ -65,7 +69,7 @@ export const CalculateForm = () => {
           })}
         </>
       </StyledForm>
-      <select
+      <CurrencySelect
         onChange={(e) => handleSelect(e.target.value)}
         value={currencyOptions}
         multiple={false}
@@ -73,7 +77,7 @@ export const CalculateForm = () => {
         {currencyOptions.map((keys) => {
           return <option value={keys}>{keys}</option>;
         })}
-      </select>
-    </>
+      </CurrencySelect>
+    </Container>
   );
 };
