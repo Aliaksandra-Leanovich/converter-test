@@ -15,16 +15,15 @@ import {
   CurrencySelect,
   StyledForm,
 } from "./style";
-import { isNonNullExpression } from "typescript";
 
 export const CalculateForm = () => {
-  // const currencies = useAppSelector(getCurrency);
+  // const currency = useAppSelector(getCurrency);
   const dispatch = useAppDispatch();
   // useEffect(() => {
   //   dispatch(featchCurrency());
   // }, [dispatch]);
-  //A non-serializable value was detected in an action, in the path: `payload`.
-  // console.log(currencies.currency.rates);
+  // // A non-serializable value was detected in an action, in the path: `payload`.
+  // console.log(currency);
 
   const [allRates, setAllRates] = useState(null);
   useEffect(() => {
@@ -38,17 +37,13 @@ export const CalculateForm = () => {
 
   const { currencies, setCurrencies } = useCurrenciesContext();
 
-  const shownCurrencies1 = ["USD", "EUR", "BYN", "RUB"];
-
   const [currencyOptions, setCurrenccyOptions] = useState([]);
   useEffect(() => {
     setCurrenccyOptions(keysRates);
   });
-  const [selectCurrency, setSelectCurrency] = useState(shownCurrencies1);
 
   const handleSelect = (event: any) => {
     if (event) {
-      selectCurrency.push(event);
       setCurrencies([...currencies, event]);
     }
   };
