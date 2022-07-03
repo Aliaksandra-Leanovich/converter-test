@@ -4,7 +4,8 @@ import { currencyService } from "../../service/currencyServices";
 export const featchCurrency = createAsyncThunk<any>(
   "currency/featchCurrency",
   () => {
-    return currencyService.getAllRates().subscribe();
+    const data = currencyService.getAllRates();
+    return data;
   }
 );
 export interface IInitialState {
