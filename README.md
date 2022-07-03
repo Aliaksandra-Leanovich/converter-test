@@ -1,7 +1,7 @@
 
 [Live Demo](https://aliaksandra-leanovich.github.io/converter-test/)
 
-<<<<<<< HEAD
+
 ## Tools and Packages
 
 ---
