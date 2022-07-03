@@ -17,28 +17,52 @@ import {
   StyledForm,
 } from "./style";
 
+import { combineLatest, BehaviorSubject, merge, Subject } from "rxjs";
+import { map, tap } from "rxjs/operators";
+
 export const CalculateForm = () => {
-  // const currency = useAppSelector(getCurrency);
   const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(featchCurrency());
-  // }, [dispatch]);
-  // // A non-serializable value was detected in an action, in the path: `payload`.
-  // console.log(currency);
 
   const [allRates, setAllRates] = useState(null);
-  useEffect(() => {
-    currencyService.getAllRates().subscribe(setAllRates);
-  }, [dispatch]);
-
+  const [baseCurrency, setBaseCurrency] = useState("USD");
+  const [convertableAmount, setConvertableAmount] = useState(1);
   const [keysRates, setKeyslRates] = useState([]);
-  useEffect(() => {
-    currencyService.getRatesKey().subscribe(setKeyslRates);
-  }, [dispatch]);
-
+  const [currencyOptions, setCurrenccyOptions] = useState([]);
   const { currencies, setCurrencies } = useCurrenciesContext();
 
-  const [currencyOptions, setCurrenccyOptions] = useState([]);
+  const baseCurrency$ = new BehaviorSubject<string>("USD");
+  const convertableAmount$ = new BehaviorSubject<number>(1);
+  const keysRates$ = currencyService.getAllCurrencies();
+  const initialRates$ = currencyService.getAllRates();
+
+  const updatedRates$ = combineLatest([
+    initialRates$,
+    baseCurrency$,
+    convertableAmount$,
+  ]).pipe(
+    map(([initialRates, baseCurrency, convertableAmount]) => {
+      return Object.entries(initialRates).reduce((acc, [key, value]) => {
+        return {
+          ...acc,
+          [key]:
+            (Number(value) / initialRates[baseCurrency]) * convertableAmount,
+        };
+      }, {});
+    })
+  );
+
+  const rates$ = merge(initialRates$, updatedRates$);
+
+  useEffect(() => {
+    const keysRatesSubscription = keysRates$.subscribe(setKeyslRates);
+    const ratesSubscription = rates$.subscribe(setAllRates);
+
+    return () => {
+      keysRatesSubscription.unsubscribe();
+      ratesSubscription.unsubscribe();
+    };
+  }, [dispatch, baseCurrency, convertableAmount]);
+
   useEffect(() => {
     setCurrenccyOptions(keysRates);
   });
@@ -48,14 +72,17 @@ export const CalculateForm = () => {
       setCurrencies([...currencies, event]);
     }
   };
-  const [rezult, setRezult] = useState<number>();
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    const rez = +value / 10;
-    setRezult(rez);
-  };
 
-  useEffect(() => {}, []);
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const currency = e.target.attributes.getNamedItem("name")?.nodeValue ?? "";
+    const amount = Number(e.target.value);
+
+    baseCurrency$.next(currency);
+    convertableAmount$.next(amount);
+
+    setBaseCurrency(currency);
+    setConvertableAmount(convertableAmount);
+  };
 
   return (
     <Container>
@@ -67,6 +94,7 @@ export const CalculateForm = () => {
                 <ContainerInput>
                   <CurrencyName>{key}</CurrencyName>
                   <CalculateInput
+                    name={key}
                     type="number"
                     placeholder={"" + value}
                     handleInput={handleInput}

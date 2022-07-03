@@ -2,6 +2,7 @@ import React from "react";
 import { StyledInput } from "./style";
 
 type ICalculateInput = {
+  name: string;
   type: string;
   placeholder: string | undefined;
   handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,10 +10,16 @@ type ICalculateInput = {
 
 export const CalculateInput = ({
   type,
+  name,
   placeholder,
   handleInput,
 }: ICalculateInput) => {
   return (
-    <StyledInput type={type} placeholder={placeholder} onChange={handleInput} />
+    <StyledInput
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      onChange={handleInput}
+    />
   );
 };

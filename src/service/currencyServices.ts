@@ -25,5 +25,8 @@ class CurrencyService {
       map((response) => Object.keys(response.data.rates))
     );
   }
+  public getAllCurrencies(): Observable<any> {
+    return this.getAllRates().pipe(map((rates) => Object.keys(rates)));
+  }
 }
 export const currencyService = new CurrencyService();
