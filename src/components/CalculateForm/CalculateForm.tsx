@@ -22,13 +22,6 @@ import { map, tap } from "rxjs/operators";
 
 export const CalculateForm = () => {
   const dispatch = useAppDispatch();
-  const currency = useAppSelector(getCurrency);
-
-  useEffect(() => {
-    dispatch(featchCurrency());
-  }, [dispatch]);
-  // A non-serializable value was detected in an action, in the path: `payload`.
-  console.log(currency);
 
   const [allRates, setAllRates] = useState(null);
   const [baseCurrency, setBaseCurrency] = useState("USD");
