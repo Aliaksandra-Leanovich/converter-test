@@ -66,7 +66,11 @@ export const CalculateForm = () => {
               return (
                 <ContainerInput>
                   <CurrencyName>{key}</CurrencyName>
-                  <CalculateInput type="number" placeholder={"" + value} />
+                  <CalculateInput
+                    type="number"
+                    placeholder={"" + value}
+                    handleInput={handleInput}
+                  />
                 </ContainerInput>
               );
             }
