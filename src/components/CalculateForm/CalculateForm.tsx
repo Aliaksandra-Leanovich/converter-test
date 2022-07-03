@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useCurrenciesContext } from "../../context/currenciesContext";
 import { currencyService } from "../../service/currencyServices";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
@@ -47,6 +48,13 @@ export const CalculateForm = () => {
       setCurrencies([...currencies, event]);
     }
   };
+  const [rezult, setRezult] = useState();
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const rez = setRezult(value);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <Container>
