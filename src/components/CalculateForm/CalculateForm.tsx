@@ -39,19 +39,17 @@ export const CalculateForm = () => {
   const { currencies, setCurrencies } = useCurrenciesContext();
 
   const [currencyOptions, setCurrenccyOptions] = useState([]);
+
   useEffect(() => {
     setCurrenccyOptions(keysRates);
   });
 
-  const handleSelect = (event: any) => {
-    if (event) {
-      setCurrencies([...currencies, event]);
-    }
-  };
-  const [rezult, setRezult] = useState();
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const [rezult, setRezult] = useState<number>();
+  const handleInput = (e: any) => {
     const { value } = e.target;
-    const rez = setRezult(value);
+    const rez = +value / 10;
+    setRezult(rez);
+    console.log(rezult);
   };
 
   useEffect(() => {}, []);
@@ -73,7 +71,7 @@ export const CalculateForm = () => {
         </>
       </StyledForm>
       <CurrencySelect
-        onChange={(e) => handleSelect(e.target.value)}
+        onChange={(e) => handleInput(e)}
         value={currencyOptions}
         multiple={false}
       >
