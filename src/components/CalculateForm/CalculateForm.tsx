@@ -89,8 +89,8 @@ export const CalculateForm = () => {
       <StyledForm>
         <>
           {Object.entries(allRates ?? {}).map(([key, value]) => {
-            if (currencies.includes(key)) {
-              return (
+            return (
+              currencies.includes(key) && (
                 <ContainerInput>
                   <CurrencyName>{key}</CurrencyName>
                   <CalculateInput
@@ -100,8 +100,8 @@ export const CalculateForm = () => {
                     handleInput={handleInput}
                   />
                 </ContainerInput>
-              );
-            }
+              )
+            );
           })}
         </>
       </StyledForm>
