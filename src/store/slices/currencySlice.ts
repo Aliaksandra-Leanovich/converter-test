@@ -9,7 +9,7 @@ export const featchCurrency = createAsyncThunk<any>(
   }
 );
 export interface IInitialState {
-  currency: any;
+  currency: {};
   loading: boolean;
 }
 
