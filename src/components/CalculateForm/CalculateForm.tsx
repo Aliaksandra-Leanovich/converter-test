@@ -38,11 +38,11 @@ export const CalculateForm = () => {
       keysRatesSubscription.unsubscribe();
       ratesSubscription.unsubscribe();
     };
-  }, [dispatch, baseCurrency, convertableAmount]);
+  }, [dispatch, baseCurrency, convertableAmount, keysRates$, rates$]);
 
   useEffect(() => {
     setCurrencyOptions(keysRates);
-  });
+  }, [keysRates]);
 
   const handleSelect = (event: string) => {
     if (event) {
