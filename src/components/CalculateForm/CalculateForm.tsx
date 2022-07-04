@@ -1,13 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useCurrenciesContext } from "../../context/currenciesContext";
 import { currencyService } from "../../service/currencyServices";
-import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
-import {
-  getCurrency,
-  getCurrencyStatus,
-} from "../../store/selectors/currencySelectors";
-import { featchCurrency } from "../../store/slices/currencySlice";
+import { useAppDispatch } from "../../store/hooks/hooks";
 import { CalculateInput } from "../CalculateInput/CalculateInput";
 import {
   Container,
@@ -23,7 +17,7 @@ import { map, tap } from "rxjs/operators";
 export const CalculateForm = () => {
   const dispatch = useAppDispatch();
 
-  const [allRates, setAllRates] = useState(null);
+  const [allRates, setAllRates] = useState({});
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [convertableAmount, setConvertableAmount] = useState(1);
   const [keysRates, setKeyslRates] = useState([]);
@@ -44,8 +38,8 @@ export const CalculateForm = () => {
       return Object.entries(initialRates).reduce((acc, [key, value]) => {
         return {
           ...acc,
-          [key]:
-            (Number(value) / initialRates[baseCurrency]) * convertableAmount,
+          [key]: (Number(value) / 1) * convertableAmount,
+          // [key]: (Number(value) / initialRates[baseCurrency]) * convertableAmount, should be
         };
       }, {});
     })
