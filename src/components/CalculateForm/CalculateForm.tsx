@@ -11,8 +11,7 @@ import {
   StyledForm,
 } from "./style";
 
-import { combineLatest, BehaviorSubject, merge, Subject } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { BehaviorSubject, merge } from "rxjs";
 
 export const CalculateForm = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +20,7 @@ export const CalculateForm = () => {
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [convertableAmount, setConvertableAmount] = useState(1);
   const [keysRates, setKeyslRates] = useState([]);
-  const [currencyOptions, setCurrenccyOptions] = useState([]);
+  const [currencyOptions, setCurrencyOptions] = useState([]);
   const { currencies, setCurrencies } = useCurrenciesContext();
 
   const baseCurrency$ = new BehaviorSubject<string>("USD");
@@ -42,7 +41,7 @@ export const CalculateForm = () => {
   }, [dispatch, baseCurrency, convertableAmount]);
 
   useEffect(() => {
-    setCurrenccyOptions(keysRates);
+    setCurrencyOptions(keysRates);
   });
 
   const handleSelect = (event: string) => {

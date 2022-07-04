@@ -6,7 +6,7 @@ export interface IExpensesContextProviderProps {
 
 export interface ICurrenciesContext {
   currencies: any;
-  setCurrencies: (newCurrencies: any[]) => void;
+  setCurrencies: (newCurrencies: string[]) => void;
 }
 
 const CurrenciesContext = createContext({

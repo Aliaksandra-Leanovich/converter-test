@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import currencyReducer from "./slices/currencySlice";
-import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
 const store = configureStore({
   reducer: {
