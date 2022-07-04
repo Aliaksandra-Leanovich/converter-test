@@ -17,7 +17,7 @@ import { map, tap } from "rxjs/operators";
 export const CalculateForm = () => {
   const dispatch = useAppDispatch();
 
-  const [allRates, setAllRates] = useState({});
+  const [allRates, setAllRates] = useState(null);
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [convertableAmount, setConvertableAmount] = useState(1);
   const [keysRates, setKeyslRates] = useState([]);
@@ -29,23 +29,7 @@ export const CalculateForm = () => {
   const keysRates$ = currencyService.getAllCurrencies();
   const initialRates$ = currencyService.getAllRates();
 
-  const updatedRates$ = combineLatest([
-    initialRates$,
-    baseCurrency$,
-    convertableAmount$,
-  ]).pipe(
-    map(([initialRates, baseCurrency, convertableAmount]) => {
-      return Object.entries(initialRates).reduce((acc, [key, value]) => {
-        return {
-          ...acc,
-          [key]: (Number(value) / 1) * convertableAmount,
-          // [key]: (Number(value) / initialRates[baseCurrency]) * convertableAmount, should be
-        };
-      }, {});
-    })
-  );
-
-  const rates$ = merge(initialRates$, updatedRates$);
+  const rates$ = merge(initialRates$);
 
   useEffect(() => {
     const keysRatesSubscription = keysRates$.subscribe(setKeyslRates);
@@ -61,7 +45,7 @@ export const CalculateForm = () => {
     setCurrenccyOptions(keysRates);
   });
 
-  const handleSelect = (event: any) => {
+  const handleSelect = (event: string) => {
     if (event) {
       setCurrencies([...currencies, event]);
     }
@@ -75,7 +59,14 @@ export const CalculateForm = () => {
     convertableAmount$.next(amount);
 
     setBaseCurrency(currency);
-    setConvertableAmount(convertableAmount);
+    setConvertableAmount(amount);
+  };
+  const convertValues = (value: number, key: string) => {
+    if (allRates) {
+      return (convertableAmount / allRates[baseCurrency]) * allRates[key];
+    }
+
+    return value;
   };
 
   return (
@@ -89,9 +80,15 @@ export const CalculateForm = () => {
                   <CurrencyName>{key}</CurrencyName>
                   <CalculateInput
                     name={key}
+                    key={key}
                     type="number"
                     placeholder={"" + value}
                     handleInput={handleInput}
+                    value={
+                      key === baseCurrency
+                        ? convertableAmount
+                        : convertValues(Number(value), key)
+                    }
                   />
                 </ContainerInput>
               )

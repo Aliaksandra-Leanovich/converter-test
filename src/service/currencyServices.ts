@@ -13,7 +13,7 @@ class CurrencyService {
     baseURL: this.API_URL,
   });
 
-  public getAllRates(): Observable<ICurrency> {
+  public getAllRates(): Observable<any> {
     return from(this.api.get("/latest")).pipe(
       map((response) => response.data.rates)
     );
