@@ -19,13 +19,13 @@ export const CalculateForm = () => {
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
   const { currencies, setCurrencies } = useCurrenciesContext();
 
-  const allCurrencies$ = currencyService.getAllCurrencies();
-  const rates$ = currencyService.getAllRates();
-
   useEffect(() => {
-    const allCurrenciesSubscription =
-      allCurrencies$.subscribe(setAllCurrencies);
-    const ratesSubscription = rates$.subscribe(setAllRates);
+    const allCurrenciesSubscription = currencyService
+      .getAllCurrencies()
+      .subscribe(setAllCurrencies);
+    const ratesSubscription = currencyService
+      .getAllRates()
+      .subscribe(setAllRates);
 
     return () => {
       allCurrenciesSubscription.unsubscribe();
