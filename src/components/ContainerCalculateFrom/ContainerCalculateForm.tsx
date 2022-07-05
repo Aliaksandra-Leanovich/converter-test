@@ -1,4 +1,3 @@
-import React from "react";
 import { CalculateForm } from "../CalculateForm/CalculateForm";
 import { StyledContainer } from "./style";
 
