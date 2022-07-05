@@ -1,7 +1,6 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useCurrenciesContext } from "../../context/currenciesContext";
 import { currencyService } from "../../service/currencyServices";
-import { useAppDispatch } from "../../store/hooks/hooks";
 import { CalculateInput } from "../CalculateInput/CalculateInput";
 import {
   Container,
@@ -10,39 +9,33 @@ import {
   CurrencySelect,
   StyledForm,
 } from "./style";
-
-import { BehaviorSubject, merge } from "rxjs";
+import { ICurrency } from "../../types";
 
 export const CalculateForm = () => {
-  const dispatch = useAppDispatch();
-
-  const [allRates, setAllRates] = useState(null);
+  const [allRates, setAllRates] = useState<ICurrency>({});
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [convertableAmount, setConvertableAmount] = useState(1);
-  const [keysRates, setKeyslRates] = useState([]);
-  const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [allCurrencies, setAllCurrencies] = useState<string[]>([]);
+  const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
   const { currencies, setCurrencies } = useCurrenciesContext();
 
-  const baseCurrency$ = new BehaviorSubject<string>("USD");
-  const convertableAmount$ = new BehaviorSubject<number>(1);
-  const keysRates$ = currencyService.getAllCurrencies();
-  const initialRates$ = currencyService.getAllRates();
-
-  const rates$ = merge(initialRates$);
+  const allCurrencies$ = currencyService.getAllCurrencies();
+  const rates$ = currencyService.getAllRates();
 
   useEffect(() => {
-    const keysRatesSubscription = keysRates$.subscribe(setKeyslRates);
+    const allCurrenciesSubscription =
+      allCurrencies$.subscribe(setAllCurrencies);
     const ratesSubscription = rates$.subscribe(setAllRates);
 
     return () => {
-      keysRatesSubscription.unsubscribe();
+      allCurrenciesSubscription.unsubscribe();
       ratesSubscription.unsubscribe();
     };
-  }, [dispatch, baseCurrency, convertableAmount, keysRates$, rates$]);
+  }, []);
 
   useEffect(() => {
-    setCurrencyOptions(keysRates);
-  }, [keysRates]);
+    setCurrencyOptions(allCurrencies);
+  }, [allCurrencies]);
 
   const handleSelect = (event: string) => {
     if (event) {
@@ -50,19 +43,20 @@ export const CalculateForm = () => {
     }
   };
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
     const currency = e.target.attributes.getNamedItem("name")?.nodeValue ?? "";
     const amount = Number(e.target.value);
-
-    baseCurrency$.next(currency);
-    convertableAmount$.next(amount);
 
     setBaseCurrency(currency);
     setConvertableAmount(amount);
   };
-  const convertValues = (value: number, key: string) => {
+
+  const calculateValue = (value: number, key: string): number => {
     if (allRates) {
-      return (convertableAmount / allRates[baseCurrency]) * allRates[key];
+      return (
+        (convertableAmount / Number(allRates[baseCurrency])) *
+        Number(allRates[key])
+      );
     }
 
     return value;
@@ -86,7 +80,7 @@ export const CalculateForm = () => {
                     value={
                       key === baseCurrency
                         ? convertableAmount
-                        : convertValues(Number(value), key)
+                        : calculateValue(Number(value), key)
                     }
                   />
                 </ContainerInput>

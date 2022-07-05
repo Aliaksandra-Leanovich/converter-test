@@ -1,10 +1,7 @@
 import axios from "axios";
-import { from, Observable, pipe } from "rxjs";
+import { from, Observable } from "rxjs";
 import { map } from "rxjs/operators";
-
-export interface ICurrency {
-  [label: string]: string | undefined;
-}
+import { ICurrency, Response } from "../types";
 
 class CurrencyService {
   private readonly API_URL = "https://api.exchangerate.host";
@@ -13,13 +10,17 @@ class CurrencyService {
     baseURL: this.API_URL,
   });
 
-  public getAllRates(): Observable<any> {
+  getAllRates(): Observable<ICurrency> {
     return from(this.api.get("/latest")).pipe(
-      map((response) => response.data.rates)
+      map((response: Response) => response.data.rates)
     );
   }
-  public getAllCurrencies(): Observable<any> {
-    return this.getAllRates().pipe(map((rates) => Object.keys(rates)));
+
+  getAllCurrencies(): Observable<string[]> {
+    return this.getAllRates().pipe(
+      map((rates: ICurrency) => Object.keys(rates))
+    );
   }
 }
+
 export const currencyService = new CurrencyService();

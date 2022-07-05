@@ -1,27 +1,27 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-export interface IExpensesContextProviderProps {
+export interface ICurrenciesContextProviderProps {
   children: ReactNode;
 }
 
 export interface ICurrenciesContext {
-  currencies: any;
+  currencies: string[];
   setCurrencies: (newCurrencies: string[]) => void;
 }
 
 const CurrenciesContext = createContext({
-  currencies: [],
+  currencies: [] as string[],
   setCurrencies: (newCurrencies: string[]) => {},
 });
 
-const useCurrenciesContextValue = () => {
+const useCurrenciesContextValue = (): ICurrenciesContext => {
   const [currenciesContext, setCurrenciesContext] =
     useState<ICurrenciesContext>(() => ({
       currencies: ["USD", "EUR", "BYN", "RUB"],
 
       setCurrencies: (newCurrencies: string[]) => {
-        setCurrenciesContext((ctx) => ({
-          ...ctx,
+        setCurrenciesContext((context) => ({
+          ...context,
           currencies: newCurrencies,
         }));
       },
@@ -35,7 +35,7 @@ export const useCurrenciesContext = () =>
 
 export const CurrenciesContextProvider = ({
   children,
-}: IExpensesContextProviderProps) => {
+}: ICurrenciesContextProviderProps) => {
   return (
     <CurrenciesContext.Provider value={useCurrenciesContextValue()}>
       {children}
